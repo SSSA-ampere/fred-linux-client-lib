@@ -10,15 +10,15 @@
  * (at your option) any later version.
 */
 
-#ifndef FRED_BUFF_H_
-#define FRED_BUFF_H_
+#ifndef USER_BUFF_H_
+#define USER_BUFF_H_
 
 #include <stddef.h>
 #include "fred_parameters.h"
 
 //---------------------------------------------------------------------------------------------
 
-struct fred_user_buff {
+struct user_buff {
 	void *map_addr;
 	int file_d;
 	size_t length;
@@ -27,12 +27,14 @@ struct fred_user_buff {
 
 //---------------------------------------------------------------------------------------------
 
-void fred_buff_init(struct fred_user_buff *buff);
+void user_buff_init(struct user_buff *buff);
 
-void *fred_buff_map(struct fred_user_buff *buff);
+void *user_buff_map(struct user_buff *buff);
 
-void fred_buff_unmap(struct fred_user_buff *buff);
+void user_buff_unmap(struct user_buff *buff);
+
+size_t user_buff_get_size(const struct user_buff *buff);
 
 //---------------------------------------------------------------------------------------------
 
-#endif /* BUFF_H_ */
+#endif /* USER_H_ */

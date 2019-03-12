@@ -13,6 +13,7 @@
 #ifndef FRED_LIB_H_
 #define FRED_LIB_H_
 
+#include <stddef.h>
 #include <stdint.h>
 
 //---------------------------------------------------------------------------------------------
@@ -22,7 +23,8 @@
 //---------------------------------------------------------------------------------------------
 
 enum fred_errors {
-	FRED_ERR_REQ	=  100,
+	FRED_ERR_REQ	= 200,
+	FRED_ERR_ARGS	= 100,
 	FRED_ERR_MEM	= -100,
 	FRED_ERR_COMM	= -200,
 	FRED_ERR_MAP	= -400,
@@ -52,11 +54,16 @@ int fred_async_wait_for_accel(struct fred_data *self);
 
 //---------------------------------------------------------------------------------------------
 
+int fred_get_buffs_count(const struct fred_data *self, struct fred_hw_task *hw_task);
+
+ssize_t fred_get_buff_size(const struct fred_data *self, struct fred_hw_task *hw_task,
+							int buff_idx);
+
+//---------------------------------------------------------------------------------------------
+
 void *fred_map_buff(const struct fred_data *self, struct fred_hw_task *hw_task, int buff_idx);
 
 void fred_unmap_buff(const struct fred_data *self, struct fred_hw_task *hw_task, int buff_idx);
-
-int fred_get_buffs_count(const struct fred_data *self, struct fred_hw_task *hw_task);
 
 //---------------------------------------------------------------------------------------------
 

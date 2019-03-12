@@ -19,12 +19,12 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-#include "fred_buff.h"
+#include "user_buff.h"
 #include "dbg_print.h"
 
 //---------------------------------------------------------------------------------------------
 
-void fred_buff_init(struct fred_user_buff *buff)
+void user_buff_init(struct user_buff *buff)
 {
 	assert(buff);
 
@@ -33,7 +33,7 @@ void fred_buff_init(struct fred_user_buff *buff)
 	buff->length = 0;
 }
 
-void* fred_buff_map(struct fred_user_buff *buff)
+void* user_buff_map(struct user_buff *buff)
 {
 	assert(buff);
 
@@ -61,7 +61,7 @@ void* fred_buff_map(struct fred_user_buff *buff)
 	return buff->map_addr;
 }
 
-void fred_buff_unmap(struct fred_user_buff *buff)
+void user_buff_unmap(struct user_buff *buff)
 {
 	assert(buff);
 
@@ -76,4 +76,11 @@ void fred_buff_unmap(struct fred_user_buff *buff)
 	}
 
 	close(buff->file_d);
+}
+
+size_t user_buff_get_size(const struct user_buff *buff)
+{
+	assert(buff);
+
+	return buff->length;
 }

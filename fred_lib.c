@@ -25,13 +25,13 @@
 #include "fred_support/dbg_print.h"
 #include "./fred_support/fred_parameters.h"
 #include "./fred_support/fred_msg.h"
-#include "./fred_support/fred_buff.h"
+#include "./fred_support/user_buff.h"
 
 //---------------------------------------------------------------------------------------------
 
 struct fred_hw_task {
 	uint32_t id;
-	struct fred_user_buff buffers[MAX_DATA_BUFFS];
+	struct user_buff buffers[MAX_DATA_BUFFS];
 	int buffers_count;
 };
 
@@ -165,7 +165,9 @@ int fred_bind(struct fred_data *self, struct fred_hw_task **hw_task, uint32_t hw
 	int idx;
 	struct fred_msg msg;
 
-	assert(self);
+	if (!self)
+		return FRED_ERR_ARGS;
+
 	assert(self->hw_tasks_count < MAX_HW_TASKS);
 
 	if (!(self->state == CLI_INIT || self->state == CLI_IDLE)) {
@@ -238,7 +240,8 @@ int fred_async_accel(struct fred_data *self, const struct fred_hw_task *hw_task)
 	int retval;
 	struct fred_msg msg;
 
-	assert(self);
+	if (!self)
+		return FRED_ERR_ARGS;
 
 	if (self->state != CLI_IDLE) {
 		DBG_PRINT("fred_lib: warning! cannot request an acceleration right now\n");
@@ -265,7 +268,8 @@ int fred_async_wait_for_accel(struct fred_data *self)
 	int retval;
 	struct fred_msg msg;
 
-	assert(self);
+	if (!self)
+		return FRED_ERR_ARGS;
 
 	if (self->state != CLI_ACCEL) {
 		DBG_PRINT("fred_lib: warning! no acceleration request has been issued\n");
@@ -294,6 +298,9 @@ int fred_accel(struct fred_data *self, const struct fred_hw_task *hw_task)
 {
 	int retval;
 
+	if (!self || !hw_task)
+		return FRED_ERR_ARGS;
+
 	retval = fred_async_accel(self, hw_task);
 
 	if (retval)
@@ -319,7 +326,7 @@ void fred_free(struct fred_data *self)
 		if (self->hw_tasks[i]) {
 			// Unmap buffers
 			for (int j = 0; j < self->hw_tasks[i]->buffers_count; ++j) {
-				fred_buff_unmap(&self->hw_tasks[i]->buffers[j]);
+				user_buff_unmap(&self->hw_tasks[i]->buffers[j]);
 			}
 			// free hw-task
 			free(self->hw_tasks[i]);
@@ -334,7 +341,8 @@ void fred_free(struct fred_data *self)
 
 void *fred_map_buff(const struct fred_data *self, struct fred_hw_task *hw_task, int buff_idx)
 {
-	assert(self);
+	if (!self || !hw_task)
+		return NULL;
 
 	if (self->state != CLI_IDLE) {
 		DBG_PRINT("fred_lib: warning! cannot map buffers right now\n");
@@ -346,12 +354,13 @@ void *fred_map_buff(const struct fred_data *self, struct fred_hw_task *hw_task, 
 		return NULL;
 	}
 
-	return fred_buff_map(&hw_task->buffers[buff_idx]);
+	return user_buff_map(&hw_task->buffers[buff_idx]);
 }
 
 void fred_unmap_buff(const struct fred_data *self, struct fred_hw_task *hw_task, int buff_idx)
 {
-	assert(self);
+	if (!self || !hw_task)
+		return;
 
 	if (self->state != CLI_IDLE) {
 		DBG_PRINT("fred_lib: warning! cannot unmap buffers right now\n");
@@ -363,19 +372,38 @@ void fred_unmap_buff(const struct fred_data *self, struct fred_hw_task *hw_task,
 		return;
 	}
 
-	fred_buff_unmap(&hw_task->buffers[buff_idx]);
+	user_buff_unmap(&hw_task->buffers[buff_idx]);
 }
 
 int fred_get_buffs_count(const struct fred_data *self, struct fred_hw_task *hw_task)
 {
-	assert(self);
+	if (!self || !hw_task)
+		return FRED_ERR_ARGS;
 
 	if (self->state != CLI_IDLE) {
 		DBG_PRINT("fred_lib: warning! cannot get buffers count right now\n");
-		return -1;
+		return FRED_ERR_REQ;
 	}
 
 	return hw_task->buffers_count;
+}
+
+ssize_t fred_get_buff_size(const struct fred_data *self, struct fred_hw_task *hw_task, int buff_idx)
+{
+	if (!self || !hw_task)
+		return FRED_ERR_ARGS;
+
+	if (self->state != CLI_IDLE) {
+		DBG_PRINT("fred_lib: warning! cannot get buffer size right now\n");
+		return FRED_ERR_REQ;
+	}
+
+	if (buff_idx >= hw_task->buffers_count) {
+		DBG_PRINT("fred_lib: warning! requested buffer does not exist\n");
+		return FRED_ERR_ARGS;
+	}
+
+	return (ssize_t)user_buff_get_size(&hw_task->buffers[buff_idx]);
 }
 
 //---------------------------------------------------------------------------------------------
