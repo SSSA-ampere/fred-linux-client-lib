@@ -10,25 +10,29 @@
  * (at your option) any later version.
 */
 
-#ifndef SRC_UTILS_DBG_PRINT_H_
-#define SRC_UTILS_DBG_PRINT_H_
+#ifndef PERIODIC_TASK_H
+#define PERIODIC_TASK_H
+
+#include <pthread.h>
 
 //---------------------------------------------------------------------------------------------
 
-#include <stdio.h>
+struct periodic_task {
+	int	period_ms;
+	int (*body)(void *);
+	void *args;
+	
+	pthread_t tid;
+	struct timespec next_activation;
+};
 
 //---------------------------------------------------------------------------------------------
 
-#define DBG_VERBOSE
+int periodic_task_init(struct periodic_task *self, int (*body)(void *), void *args,
+						int period_ms);
 
-//---------------------------------------------------------------------------------------------
+int periodic_task_start(struct periodic_task *self);
 
-#ifdef DBG_VERBOSE
-#define DBG_PRINT(...) do { fprintf(stderr, __VA_ARGS__ ); } while (0)
-#else
-#define DBG_PRINT(...) do { } while (0)
+int periodic_task_join(struct periodic_task *self);
+
 #endif
-
-//---------------------------------------------------------------------------------------------
-
-#endif /* SRC_UTILS_DBG_PRINT_H_ */

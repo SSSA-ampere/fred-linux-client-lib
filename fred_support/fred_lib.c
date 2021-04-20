@@ -1,7 +1,7 @@
 /*
  * Fred for Linux. Experimental support.
  *
- * Copyright (C) 2018, Marco Pagani, ReTiS Lab.
+ * Copyright (C) 2018-2021, Marco Pagani, ReTiS Lab.
  * <marco.pag(at)outlook.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,10 +22,10 @@
 #include <sys/un.h>
 
 #include "fred_lib.h"
-#include "fred_support/dbg_print.h"
-#include "./fred_support/fred_parameters.h"
-#include "./fred_support/fred_msg.h"
-#include "./fred_support/user_buff.h"
+#include "dbg_print.h"
+#include "fred_parameters.h"
+#include "fred_msg.h"
+#include "user_buff.h"
 
 //---------------------------------------------------------------------------------------------
 
