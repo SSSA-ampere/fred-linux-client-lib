@@ -132,6 +132,13 @@ int fred_init(struct fred_data **self)
 
 	// Create message for the server
 	fred_msg_set_head(&msg, FRED_MSG_INIT);
+	// args are set just to avoid sending uninitialised data
+	// see this valgrind report
+	// ==1860== Syscall param write(buf) points to uninitialised byte(s)
+	// ==1860==    at 0x49024D6: write (syscall-template.S:84)
+	// ==1860==    by 0x4859CFB: send_to_server_ (fred_lib.c:91)
+	// ==1860==    by 0x4859E37: fred_init (fred_lib.c:137)	
+	fred_msg_set_arg(&msg, 0);
 
 	// Send
 	retval = send_to_server_((*self)->fd, &msg, sizeof(msg));

@@ -13,6 +13,11 @@
 #ifndef FRED_LIB_H_
 #define FRED_LIB_H_
 
+// required to call from a C++ program
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stddef.h>
 #include <stdint.h>
 
@@ -66,5 +71,9 @@ void *fred_map_buff(const struct fred_data *self, struct fred_hw_task *hw_task, 
 void fred_unmap_buff(const struct fred_data *self, struct fred_hw_task *hw_task, int buff_idx);
 
 //---------------------------------------------------------------------------------------------
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* FRED_LIB_H_ */
