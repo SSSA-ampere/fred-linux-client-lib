@@ -11,3 +11,8 @@ add_library(fred SHARED
     fred_lib.c
     user_buff.c
 )
+
+add_library(fred_s STATIC
+    fred_lib.c
+    user_buff.c
+)
