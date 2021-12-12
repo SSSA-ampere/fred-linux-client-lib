@@ -1,9 +1,10 @@
 LIBNAME = libfred
+FRED_PATH ?= /opt/fredsys
 SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
 DEPS = $(OBJS:.o=.d)
 
-CFLAGS += -std=gnu99 -O2 -Wall -Werror
+CFLAGS += -std=gnu99 -O2 -Wall -Werror -DFRED_PATH=${FRED_PATH}
 
 $(LIBNAME).a: $(OBJS)
 	$(AR) rcs $@ $^
@@ -20,3 +21,7 @@ $(LIBNAME).a: $(OBJS)
 clean:
 	rm -f $(LIBNAME).a $(OBJS) $(DEPS)
 
+install:
+	mkdir -p ${FRED_PATH}/include ${FRED_PATH}/lib 
+	cp fred_lib.h ${FRED_PATH}/include
+	cp *.so *.a ${FRED_PATH}/lib 

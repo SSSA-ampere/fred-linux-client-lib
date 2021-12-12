@@ -17,7 +17,7 @@
 
 #define LIST_SOCK_PATH			"/tmp/fred_sock"
 
-#define FRED_PATH				"/fredsys/"
+//#define FRED_PATH				"/fredsys/"
 
 //-------------------------------------------------------------------------------
 
