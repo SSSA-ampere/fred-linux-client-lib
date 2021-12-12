@@ -1,19 +1,12 @@
-BIN = fred-test-cli
-LIBFRED = fred
-LIBFRED_DIR = fred_support
-
+LIBNAME = libfred
 SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
 DEPS = $(OBJS:.o=.d)
 
-CFLAGS += -std=gnu99 -g -Wall -Werror -fpic
-LDFLAGS += -lpthread
+CFLAGS += -std=gnu99 -O2 -Wall -Werror
 
-$(BIN): $(OBJS) $(LIBFRED)
-	$(CC) $(OBJS) -o $@ $(LDFLAGS) -L $(LIBFRED_DIR) -l$(LIBFRED)
-	
-$(LIBFRED):
-	$(MAKE) -C $(LIBFRED_DIR)
+$(LIBNAME).a: $(OBJS)
+	$(AR) rcs $@ $^
 
 # include all dep makefiles generated using the next rule
 -include $(DEPS)
@@ -25,6 +18,5 @@ $(LIBFRED):
 
 .PHONY: clean
 clean:
-	rm -f $(BIN) $(OBJS) $(DEPS)
-	$(MAKE) $@ -C $(LIBFRED_DIR)
+	rm -f $(LIBNAME).a $(OBJS) $(DEPS)
 
