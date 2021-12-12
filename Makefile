@@ -24,4 +24,4 @@ clean:
 install:
 	mkdir -p ${FRED_PATH}/include ${FRED_PATH}/lib 
 	cp fred_lib.h ${FRED_PATH}/include
-	cp *.so *.a ${FRED_PATH}/lib 
+	cp libfred.a ${FRED_PATH}/lib 

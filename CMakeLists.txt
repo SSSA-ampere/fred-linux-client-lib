@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(fred_lib LANGUAGES CXX)
+project(fred_lib LANGUAGES C)
 
 set(FRED_PATH "/opt/fredsys")
 
@@ -19,9 +19,11 @@ add_library(fred_s STATIC
     user_buff.c
 )
 
-set_target_properties(mylib PROPERTIES PUBLIC_HEADER "fred_lib.h")
+set_target_properties(fred PROPERTIES PUBLIC_HEADER "fred_lib.h")
 
-INSTALL(TARGETS fred fred_s 
+INSTALL(TARGETS fred fred_s
+        DESTINATION ${FRED_PATH}
         LIBRARY DESTINATION ${FRED_PATH}/lib
+        ARCHIVE DESTINATION ${FRED_PATH}/lib
         PUBLIC_HEADER DESTINATION ${FRED_PATH}/include
 )
