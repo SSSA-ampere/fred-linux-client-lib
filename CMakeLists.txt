@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 3.0)
 project(fred_lib LANGUAGES C)
 
-set(FRED_PATH "/opt/fredsys")
+# default installation path
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set (CMAKE_INSTALL_PREFIX "/opt/fredsys/"
+           CACHE PATH "default install path" FORCE)
+endif()
 
-set(CMAKE_C_FLAGS "-std=gnu99 -O2 -Wall -Werror -fpic -DFRED_PATH=${FRED_PATH}")
+set(CMAKE_C_FLAGS "-std=gnu99 -Wall -Werror -fpic -DFRED_PATH=${CMAKE_INSTALL_PREFIX}")
 
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/
@@ -21,9 +25,12 @@ add_library(fred_s STATIC
 
 set_target_properties(fred PROPERTIES PUBLIC_HEADER "fred_lib.h")
 
-INSTALL(TARGETS fred fred_s
-        DESTINATION ${FRED_PATH}
-        LIBRARY DESTINATION ${FRED_PATH}/lib
-        ARCHIVE DESTINATION ${FRED_PATH}/lib
-        PUBLIC_HEADER DESTINATION ${FRED_PATH}/include
+install(FILES 
+    ${CMAKE_CURRENT_BINARY_DIR}/libfred.so 
+    ${CMAKE_CURRENT_BINARY_DIR}/libfred_s.a
+         DESTINATION libs
+)
+
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/fred_lib.h
+         DESTINATION includes
 )

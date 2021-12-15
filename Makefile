@@ -1,5 +1,5 @@
 LIBNAME = libfred
-FRED_PATH ?= /opt/fredsys
+FRED_PATH ?= /opt/fredsys/
 SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
 DEPS = $(OBJS:.o=.d)
@@ -14,8 +14,8 @@ $(LIBNAME).a: $(OBJS)
 
 # Pattern rule for generating makefiles rules based
 # on headers includes dependencies using the C preprocessor
-%.d: %.c
-	$(CPP) $< -MM -MT $(@:.d=.o) > $@
+# %.d: %.c
+# 	$(CPP) $< -MM -MT -DFRED_PATH=${FRED_PATH} $(@:.d=.o) > $@
 
 .PHONY: clean
 clean:
