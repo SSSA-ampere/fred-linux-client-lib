@@ -28,9 +28,9 @@ set_target_properties(fred PROPERTIES PUBLIC_HEADER "fred_lib.h")
 install(FILES 
     ${CMAKE_CURRENT_BINARY_DIR}/libfred.so 
     ${CMAKE_CURRENT_BINARY_DIR}/libfred_s.a
-         DESTINATION libs
+         DESTINATION lib
 )
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/fred_lib.h
-         DESTINATION includes
+         DESTINATION include
 )
