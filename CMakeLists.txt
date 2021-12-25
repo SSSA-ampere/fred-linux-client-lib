@@ -7,7 +7,7 @@ if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
            CACHE PATH "default install path" FORCE)
 endif()
 
-set(CMAKE_C_FLAGS "-std=gnu99 -Wall -Werror -fpic -DFRED_PATH=${CMAKE_INSTALL_PREFIX}")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99 -Wall -Werror -fpic -DFRED_PATH=${CMAKE_INSTALL_PREFIX}")
 
 include_directories(
         ${CMAKE_CURRENT_SOURCE_DIR}/
