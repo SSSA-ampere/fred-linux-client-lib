@@ -1,13 +1,13 @@
 /*
  * Fred for Linux. Experimental support.
  *
- * Copyright (C) 2018-2021, Marco Pagani, ReTiS Lab.
+ * Copyright (C) 2018-2023, Marco Pagani, ReTiS Lab.
  * <marco.pag(at)outlook.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * 
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as published
+ * by the Free Software Foundation; either version 2.1 of the License, or
+ * (at your option) any later version. 
 */
 
 #ifndef PERIODIC_TASK_H
@@ -18,7 +18,7 @@
 //---------------------------------------------------------------------------------------------
 
 struct periodic_task {
-	int	period_ms;
+	int period_ms;
 	int (*body)(void *);
 	void *args;
 	
