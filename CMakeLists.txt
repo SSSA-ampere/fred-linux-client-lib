@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
-project(libfred VERSION 0.0.1)
+
+# ------------------------- PROJECT INFORMATION ------------------------- #
+
+project(libfred VERSION 1.0)
+
 
 # ---------------------------- SOURCE FILES ----------------------------- #
 
@@ -58,6 +62,10 @@ target_compile_options(libfred_object PRIVATE
     # -Wno-long-long
     # -Wno-variadic-macros
 )
+
+target_compile_features(libfredcpp INTERFACE cxx_std_17)
+target_compile_features(libfredcpp_shared INTERFACE cxx_std_17)
+target_compile_features(libfredcpp_static INTERFACE cxx_std_17)
 
 # -------------------------- TARGET PROPERTIES -------------------------- #
 
@@ -137,3 +145,8 @@ install(FILES
     ${CMAKE_CURRENT_BINARY_DIR}/libfredConfigVersion.cmake
     DESTINATION ${INSTALL_CONFIGDIR}
 )
+
+# ---------------------------- TEST TARGETS ----------------------------- #
+add_executable(sum_vec sum_vec.cpp)
+set_target_properties(sum_vec PROPERTIES EXCLUDE_FROM_ALL TRUE)
+target_link_libraries(sum_vec PRIVATE libfredcpp_static)
