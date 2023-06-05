@@ -43,6 +43,14 @@ add_library(libfredcpp_static INTERFACE)
 target_link_libraries(libfredcpp_shared INTERFACE libfred_shared libfredcpp)
 target_link_libraries(libfredcpp_static INTERFACE libfred_static libfredcpp)
 
+# Aliases, used to hide original targets when importing the library
+add_library(FredFramework::libfred_object ALIAS libfred_object)
+add_library(FredFramework::libfred_shared ALIAS libfred_shared)
+add_library(FredFramework::libfred_static ALIAS libfred_static)
+add_library(FredFramework::libfredcpp ALIAS libfredcpp)
+add_library(FredFramework::libfredcpp_shared ALIAS libfredcpp_shared)
+add_library(FredFramework::libfredcpp_static ALIAS libfredcpp_static)
+
 # ------------------------- CONFIGURATION TYPES ------------------------- #
 
 if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "")
@@ -147,6 +155,6 @@ install(FILES
 )
 
 # ---------------------------- TEST TARGETS ----------------------------- #
-add_executable(sum_vec sum_vec.cpp)
-set_target_properties(sum_vec PROPERTIES EXCLUDE_FROM_ALL TRUE)
-target_link_libraries(sum_vec PRIVATE libfredcpp_static)
+# add_executable(sum_vec sum_vec.cpp)
+# set_target_properties(sum_vec PROPERTIES EXCLUDE_FROM_ALL TRUE)
+# target_link_libraries(sum_vec PRIVATE libfredcpp_static)
