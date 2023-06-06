@@ -16,11 +16,6 @@
 
 #define LIST_SOCK_PATH			"/tmp/fred_sock"
 
-//#define FRED_PATH				"/fredsys/"
-#ifndef FRED_PATH
-#error It is required to define FRED_PATH during compilation
-#endif 
-
 //-------------------------------------------------------------------------------
 
 #define MAX_HW_TASKS			128

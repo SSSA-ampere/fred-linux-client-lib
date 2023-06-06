@@ -83,12 +83,6 @@ set_target_properties(libfred_object PROPERTIES
     POSITION_INDEPENDENT_CODE 1
 )
 
-# FIXME: change to a target-based install prefix...
-# TODO: what the hell is this path used for?
-target_compile_definitions(libfred_object PUBLIC
-    -DFRED_PATH=${CMAKE_INSTALL_PREFIX}
-)
-
 # Set headers to install
 set_target_properties(libfred_object PROPERTIES PUBLIC_HEADER ${libfred_headers})
 set_target_properties(libfredcpp PROPERTIES PUBLIC_HEADER ${libfredcpp_headers})
