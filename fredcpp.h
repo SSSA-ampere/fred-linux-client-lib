@@ -85,9 +85,10 @@ public:
 
 // NOTE: there is no distinction between input and output arguments;
 // functor behaves like void() when called
-template <typename... Args>
+template <int Id, typename... Args>
 class fredcpp_function {
 private:
+    static constexpr int hw_task_id = Id;
     // Use pointer to args
     using args_tuple = std::tuple<Args *...>;
     fredcpp_hw_task task;
@@ -95,6 +96,7 @@ private:
 
 public:
     static constexpr size_t num_args = std::tuple_size<args_tuple>::value;
+    using args_ref_type = std::tuple<Args &...>;
 
 private:
     // Returns mapped pointer to i-th argument
@@ -116,7 +118,7 @@ private:
     }
 
 public:
-    fredcpp_function(fredcpp &handle, int hw_task_id) :
+    fredcpp_function(fredcpp &handle) :
         task(handle, hw_task_id), arguments(get_arguments()) {}
 
     template <int i>
